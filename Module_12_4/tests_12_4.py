@@ -9,40 +9,36 @@ is_frozen = True
 
 class RunnerTest(unittest.TestCase): # это тест-кейс
 
-    def try_except_speed(func):
+    def try_except(func):
         def check(self):
             try:
                 func(self)
                 logging.info(f'"{func.__name__}" выполнен успешно')
-            except ValueError as err:
-                logging.warning(f'Неверная скорость для Runner', exc_info=True)
-                # logging.warning(traceback.format_exc())
-        return check
-
-    def try_except_name(func):
-        def check(self):
-            try:
-                func(self)
-                logging.info(f'"{func.__name__}" выполнен успешно')
-            except TypeError:
-                logging.warning('Неверный тип данных для объекта Runner', exc_info=True)
+            except:
+                if ValueError:
+                    logging.warning(f'Неверная скорость для Runner', exc_info=True)
+                elif TypeError:
+                    logging.warning('Неверный тип данных для объекта Runner', exc_info=True)
         return check
 
     @unittest.skipUnless(is_frozen, 'Тесты в этом кейсе заморожены')
-    @try_except_speed
+    @try_except
     def test_walk(self):
         self.r1 = rtwe.Runner('Langsamer Karl', -5)
         for i in range(10):
             self.r1.walk()
         self.assertEqual(self.r1.distance, 50)
 
+
     @unittest.skipUnless(is_frozen, f'Тесты в этом кейсе заморожены')
-    @try_except_name
+    @try_except
     def test_run(self):
         self.r2 = rtwe.Runner(4526)
         for i in range(10):
             self.r2.run()
         self.assertEqual(self.r2.distance, 100)
+
+
 
     @unittest.skipIf(is_frozen, 'Тесты в этом кейсе заморожены')
     def test_callenge(self):
@@ -93,6 +89,8 @@ class Tournament_test(unittest.TestCase):
                 raise TournamentError('Забег прошёл с нарушением. Кто-то сжульничал.')
             else:
                 print('Забег прошёл честно, никто не срезал трассу!')
+
+
 
     @classmethod
     def tearDownClass(cls):
